@@ -17,41 +17,41 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellValueEquals_Successful()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
-        $this->assertXlsxCellValueEquals('смешанный шрифт', $sheet, 'A1');
-        $this->assertXlsxCellValueEquals('нормальный шрифт', $sheet, 'A2');
-        $this->assertXlsxCellValueEquals('зелёный', $sheet, 'B1');
-        $this->assertXlsxCellValueEquals('красный', $sheet, 'B2');
-        $this->assertXlsxCellValueEquals('жёлтый', $sheet, 'B3');
+        $this->assertXlsxCellValueEquals('mixed font', $sheet, 'A1');
+        $this->assertXlsxCellValueEquals('regular font', $sheet, 'A2');
+        $this->assertXlsxCellValueEquals('green', $sheet, 'B1');
+        $this->assertXlsxCellValueEquals('red', $sheet, 'B2');
+        $this->assertXlsxCellValueEquals('yellow', $sheet, 'B3');
     }
 
     public function testAssertXlsxCellValueEquals_ShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Значение в ячейке A1 не соответствует ожидаемому.'
+            '.A1 cell value does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
-        $this->assertXlsxCellValueEquals('смешанный ШРИФТ', $sheet, 'A1');
+        $this->assertXlsxCellValueEquals('mixed FONT', $sheet, 'A1');
     }
 
     public function testAssertXlsxCellEmpty()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellEmpty($sheet, 'A3');
@@ -61,13 +61,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Ячейка B1 не пуста.'
+            '.B1 cell value is not empty.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellEmpty($sheet, 'B1');
@@ -75,10 +75,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellFontColorEquals()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellFontColorEquals(
@@ -92,17 +92,17 @@ class XlsxAssertsTraitTest extends TestCase
             'A2'
         );
         $this->assertXlsxCellFontColorEquals(
-            'FF34A853',//зелёный
+            Color::COLOR_GREEN,
             $sheet,
             'B1'
         );
         $this->assertXlsxCellFontColorEquals(
-            'FFEA4335',//красный
+            Color::COLOR_RED,
             $sheet,
             'B2'
         );
         $this->assertXlsxCellFontColorEquals(
-            'FFFBBC04',//жёлтый
+            Color::COLOR_YELLOW,
             $sheet,
             'B3'
         );
@@ -112,13 +112,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Цвет текста в ячейке A1 не соответствует ожидаемому.'
+            '.A1 cell font color does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellFontColorEquals(
@@ -130,10 +130,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellBackgroundColorEquals()
     {
-        // |A      |B      |C      |D      |E     |
-        //1|зелёный|зелёный|зелёный|       |      |
-        //2|       |жёлтый |жёлтый |жёлтый |жёлтый|
-        //3|красный|красный|красный|красный|синий |
+        // |A    |B     |C     |D     |E     |
+        //1|green|green |green |      |      |
+        //2|     |yellow|yellow|yellow|yellow|
+        //3|red  |red   |red   |red   |blue  |
         $sheet = $this->loadSheet('example_background.xlsx');
 
         $this->assertXlsxCellBackgroundColorEquals(
@@ -167,15 +167,15 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellBackgroundColorEquals_ShouldThrowException()
     {
-        // |A      |B      |C      |D      |E     |
-        //1|зелёный|зелёный|зелёный|       |      |
-        //2|       |жёлтый |жёлтый |жёлтый |жёлтый|
-        //3|красный|красный|красный|красный|синий |
+        // |A    |B     |C     |D     |E     |
+        //1|green|green |green |      |      |
+        //2|     |yellow|yellow|yellow|yellow|
+        //3|red  |red   |red   |red   |blue  |
         $sheet = $this->loadSheet('example_background.xlsx');
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Цвет фона в ячейке "D3" не соответствует ожидаемому.'
+            '.D3 cell background start color does not equal expected value.'
         );
 
         $this->assertXlsxCellBackgroundColorEquals(
@@ -188,10 +188,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellsBackgroundColorEquals()
     {
-        // |A      |B      |C      |D      |E     |
-        //1|зелёный|зелёный|зелёный|       |      |
-        //2|       |жёлтый |жёлтый |жёлтый |жёлтый|
-        //3|красный|красный|красный|красный|синий |
+        // |A    |B     |C     |D     |E     |
+        //1|green|green |green |      |      |
+        //2|     |yellow|yellow|yellow|yellow|
+        //3|red  |red   |red   |red   |blue  |
         $sheet = $this->loadSheet('example_background.xlsx');
 
         $this->assertXlsxCellsBackgroundColorEquals(
@@ -225,15 +225,15 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellsBackgroundColorEquals_ShouldThrowException()
     {
-        // |A      |B      |C      |D      |E     |
-        //1|зелёный|зелёный|зелёный|       |      |
-        //2|       |жёлтый |жёлтый |жёлтый |жёлтый|
-        //3|красный|красный|красный|красный|синий |
+        // |A    |B     |C     |D     |E     |
+        //1|green|green |green |      |      |
+        //2|     |yellow|yellow|yellow|yellow|
+        //3|red  |red   |red   |red   |blue  |
         $sheet = $this->loadSheet('example_background.xlsx');
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Цвет фона в ячейке "E3" не соответствует ожидаемому.'
+            '.E3 cell background start color does not equal expected value.'
         );
 
         $this->assertXlsxCellsBackgroundColorEquals(
@@ -246,10 +246,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellHorizontalAlignmentEquals()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellHorizontalAlignmentEquals(
@@ -263,14 +263,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Горизонтальное выравнивание в ячейке C2 '.
-            'не соответствует ожидаемому.'
+            '.C2 cell horizontal alignment does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellHorizontalAlignmentEquals(
@@ -282,10 +281,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellVerticalAlignmentEquals()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellVerticalAlignmentEquals(
@@ -299,14 +298,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Вертикальное выравнивание в ячейке C1 '.
-            'не соответствует ожидаемому.'
+            '.C1 cell vertical alignment does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellVerticalAlignmentEquals(
@@ -318,10 +316,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellWrapTextAlignmentTrue()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellWrapTextAlignmentTrue(
@@ -334,13 +332,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Для ячейки C1 не задано оборачивание текста вокруг её границ.'
+            '.C1 cell does not have wrap text.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxCellWrapTextAlignmentTrue(
@@ -351,10 +349,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxColumnWidthEquals()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxColumnWidthEquals(
@@ -373,13 +371,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Ширина ячейки C не соответствует ожидаемой.'
+            '.C column width does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxColumnWidthEquals(
@@ -391,29 +389,35 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxSheetRowsCount()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxSheetRowsCount(
             3,
             $sheet
         );
+
+        // |A       |B      |
+        //1|merged A1:B2    |
+        //2|                |
+        $sheet = $this->loadSheet('example_merged.xlsx');
+        $this->assertXlsxSheetRowsCount(1, $sheet);
     }
 
     public function testAssertXlsxSheetRowsCount_ShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Неверное количество строк.'
+            '.Not empty rows count does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxSheetRowsCount(
@@ -424,16 +428,17 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxSheetColumnsCount()
     {
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxSheetColumnsCount(4, $sheet);
 
-        // |A          |B      |
-        //1|объединены A1:B2   |
+        // |A       |B      |
+        //1|merged A1:B2    |
+        //2|                |
         $sheet = $this->loadSheet('example_merged.xlsx');
         $this->assertXlsxSheetColumnsCount(1, $sheet);
     }
@@ -442,13 +447,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Неверное количество столбцов.'
+            '.Not empty columns count does not equal expected value.'
         );
 
-        // |A               |B      |C                           |D                             |
-        //1|смешанный шрифт |зелёный|горизонтальное центрирование|обтекание текста вокруг границ|
-        //2|нормальный шрифт|красный|вертикальное центрирование  |ширина 14.43                  |
-        //3|                |жёлтый |ширина 57.29                |                              |
+        // |A           |B     |                 |D          |
+        //1|mixed font  |green |horizontal center|wrap text  |
+        //2|regular font|red   |vertical center  |width 14.43|
+        //3|            |yellow|width 57.29      |           |
         $sheet = $this->loadSheet('example.xlsx');
 
         $this->assertXlsxSheetColumnsCount(3, $sheet);
@@ -456,9 +461,9 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellMerged()
     {
-        // |A          |B      |
-        //1|объединены A1:B2   |
-        //2|                   |
+        // |A       |B      |
+        //1|merged A1:B2    |
+        //2|                |
         $sheet = $this->loadSheet('example_merged.xlsx');
 
         $this->assertXlsxCellsMerged($sheet, 'A1:B2');
@@ -468,12 +473,12 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Ячейки не объединены в диапазоне C1:D2.'
+            '.Cells of C1:D2 range are not merged.'
         );
 
-        // |A          |B      |
-        //1|объединены A1:B2   |
-        //2|                   |
+        // |A       |B      |
+        //1|merged A1:B2    |
+        //2|                |
         $sheet = $this->loadSheet('example_merged.xlsx');
 
         $this->assertXlsxCellsMerged($sheet, 'C1:D2');
@@ -483,12 +488,12 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Ячейки не объединены в диапазоне A1:A2.'
+            '.Cells of A1:A2 range are not merged.'
         );
 
-        // |A          |B      |
-        //1|объединены A1:B2   |
-        //2|                   |
+        // |A       |B      |
+        //1|merged A1:B2    |
+        //2|                |
         $sheet = $this->loadSheet('example_merged.xlsx');
 
         $this->assertXlsxCellsMerged($sheet, 'A1:A2');
@@ -497,9 +502,9 @@ class XlsxAssertsTraitTest extends TestCase
     public function testAssertXlsxCellFontItalic_Italic()
     {
         // |A      |B               |
-        //1|обычный|обычный + курсив|
-        //2|жирный |курсив + жирный |
-        //3|курсив |жирный курсив   |
+        //1|regular|regular + italic|
+        //2|bold   |italic + bold   |
+        //3|italic |bold italic     |
         $sheet = $this->loadSheet('example_italic.xlsx');
 
         $this->assertXlsxCellFontItalic($sheet, 'A3');
@@ -508,9 +513,9 @@ class XlsxAssertsTraitTest extends TestCase
     public function testAssertXlsxCellFontItalic_ItalicAndBold()
     {
         // |A      |B               |
-        //1|обычный|обычный + курсив|
-        //2|жирный |курсив + жирный |
-        //3|курсив |жирный курсив   |
+        //1|regular|regular + italic|
+        //2|bold   |italic + bold   |
+        //3|italic |bold italic     |
         $sheet = $this->loadSheet('example_italic.xlsx');
 
         $this->assertXlsxCellFontItalic($sheet, 'B3');
@@ -519,9 +524,9 @@ class XlsxAssertsTraitTest extends TestCase
     public function testAssertXlsxCellFontItalic_StartsWithItalic()
     {
         // |A      |B               |
-        //1|обычный|обычный + курсив|
-        //2|жирный |курсив + жирный |
-        //3|курсив |жирный курсив   |
+        //1|regular|regular + italic|
+        //2|bold   |italic + bold   |
+        //3|italic |bold italic     |
         $sheet = $this->loadSheet('example_italic.xlsx');
 
         $this->assertXlsxCellFontItalic($sheet, 'B2');
@@ -531,13 +536,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Текст в ячейке A1 не выделен курсивом.'
+            '.A1 cell style is not italic.'
         );
 
         // |A      |B               |
-        //1|обычный|обычный + курсив|
-        //2|жирный |курсив + жирный |
-        //3|курсив |жирный курсив   |
+        //1|regular|regular + italic|
+        //2|bold   |italic + bold   |
+        //3|italic |bold italic     |
         $sheet = $this->loadSheet('example_italic.xlsx');
 
         $this->assertXlsxCellFontItalic($sheet, 'A1');
@@ -547,13 +552,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Текст в ячейке A2 не выделен курсивом.'
+            '.A2 cell style is not italic.'
         );
 
         // |A      |B               |
-        //1|обычный|обычный + курсив|
-        //2|жирный |курсив + жирный |
-        //3|курсив |жирный курсив   |
+        //1|regular|regular + italic|
+        //2|bold   |italic + bold   |
+        //3|italic |bold italic     |
         $sheet = $this->loadSheet('example_italic.xlsx');
 
         $this->assertXlsxCellFontItalic($sheet, 'A2');
@@ -563,13 +568,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Текст в ячейке B1 не выделен курсивом.'
+            '.B1 cell style is not italic.'
         );
 
         // |A      |B               |
-        //1|обычный|обычный + курсив|
-        //2|жирный |курсив + жирный |
-        //3|курсив |жирный курсив   |
+        //1|regular|regular + italic|
+        //2|bold   |italic + bold   |
+        //3|italic |bold italic     |
         $sheet = $this->loadSheet('example_italic.xlsx');
 
         $this->assertXlsxCellFontItalic($sheet, 'B1');
@@ -577,10 +582,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellFontUnderline_Underline()
     {
-        // |A           |B                     |
-        //1|обычный     |обычный + подчёркнутый|
-        //2|жирный      |подчёркнутый + жирный |
-        //3|подчёркнутый|подчёркнутый курсив   |
+        // |A        |B                  |
+        //1|regular  |regular + underline|
+        //2|bold     |underline + bold   |
+        //3|underline|underline italic   |
         $sheet = $this->loadSheet('example_underline.xlsx');
 
         $this->assertXlsxCellFontUnderline($sheet, 'A3');
@@ -588,10 +593,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellFontUnderline_UnderlineAndItalic()
     {
-        // |A           |B                     |
-        //1|обычный     |обычный + подчёркнутый|
-        //2|жирный      |подчёркнутый + жирный |
-        //3|подчёркнутый|подчёркнутый курсив   |
+        // |A        |B                  |
+        //1|regular  |regular + underline|
+        //2|bold     |underline + bold   |
+        //3|underline|underline italic   |
         $sheet = $this->loadSheet('example_underline.xlsx');
 
         $this->assertXlsxCellFontUnderline($sheet, 'B3');
@@ -599,10 +604,10 @@ class XlsxAssertsTraitTest extends TestCase
 
     public function testAssertXlsxCellFontUnderline_StartsWithUnderline()
     {
-        // |A           |B                     |
-        //1|обычный     |обычный + подчёркнутый|
-        //2|жирный      |подчёркнутый + жирный |
-        //3|подчёркнутый|подчёркнутый курсив   |
+        // |A        |B                  |
+        //1|regular  |regular + underline|
+        //2|bold     |underline + bold   |
+        //3|underline|underline italic   |
         $sheet = $this->loadSheet('example_underline.xlsx');
 
         $this->assertXlsxCellFontUnderline($sheet, 'B2');
@@ -612,13 +617,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Текст в ячейке A1 не подчёркнут.'
+            '.A1 cell style is not underline.'
         );
 
-        // |A           |B                     |
-        //1|обычный     |обычный + подчёркнутый|
-        //2|жирный      |подчёркнутый + жирный |
-        //3|подчёркнутый|подчёркнутый курсив   |
+        // |A        |B                  |
+        //1|regular  |regular + underline|
+        //2|bold     |underline + bold   |
+        //3|underline|underline italic   |
         $sheet = $this->loadSheet('example_underline.xlsx');
 
         $this->assertXlsxCellFontUnderline($sheet, 'A1');
@@ -628,13 +633,13 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Текст в ячейке A2 не подчёркнут.'
+            '.A2 cell style is not underline.'
         );
 
-        // |A           |B                     |
-        //1|обычный     |обычный + подчёркнутый|
-        //2|жирный      |подчёркнутый + жирный |
-        //3|подчёркнутый|подчёркнутый курсив   |
+        // |A        |B                  |
+        //1|regular  |regular + underline|
+        //2|bold     |underline + bold   |
+        //3|underline|underline italic   |
         $sheet = $this->loadSheet('example_underline.xlsx');
 
         $this->assertXlsxCellFontUnderline($sheet, 'A2');
@@ -644,20 +649,20 @@ class XlsxAssertsTraitTest extends TestCase
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.Текст в ячейке B1 не подчёркнут.'
+            '.B1 cell style is not underline.'
         );
 
-        // |A           |B                     |
-        //1|обычный     |обычный + подчёркнутый|
-        //2|жирный      |подчёркнутый + жирный |
-        //3|подчёркнутый|подчёркнутый курсив   |
+        // |A        |B                  |
+        //1|regular  |regular + underline|
+        //2|bold     |underline + bold   |
+        //3|underline|underline italic   |
         $sheet = $this->loadSheet('example_underline.xlsx');
 
         $this->assertXlsxCellFontUnderline($sheet, 'B1');
     }
 
     /**
-     * Загружает содержимое xlsx-файла.
+     * Loads the xlsx file content.
      */
     private function loadSheet(string $filename): Worksheet
     {

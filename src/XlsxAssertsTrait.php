@@ -3,14 +3,15 @@
 namespace AveSystems\XlsxTestUtils;
 
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
-use PhpOffice\PhpSpreadsheet\Exception;
+use PhpOffice\PhpSpreadsheet\Exception as SpreadsheetException;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Style\Font;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PHPUnit\Framework\ExpectationFailedException;
 
 /**
- * Нужен для упрощения проверки содержимого в xlsx.
- * Должен использоваться в тестах, наследованных от "TestCase".
+ * It is designed to simplify asserting xlsx file content.
+ * It should be used in test classes inherited from "TestCase".
  *
  * @method assertEquals($expected, $actual, string $message = '', float $delta = 0.0, int $maxDepth = 10, bool $canonicalize = false, bool $ignoreCase = false): void
  * @method assertEmpty($actual, string $message = ''): void
@@ -19,20 +20,28 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 trait XlsxAssertsTrait
 {
     /**
-     * Проверяет, что значение в ячейке соответствует ожидаемому
-     * без учёта форматирования.
+     * Asserts that the cell value and the given value are equal (ignoring
+     * style).
      *
      * @param string    $expectedValue
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
-     *
-     * @throws Exception
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellValueEquals(
         string $expectedValue,
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
         $realValue = $cell->getValue();
         if ($realValue instanceof RichText) {
@@ -41,189 +50,252 @@ trait XlsxAssertsTrait
         $this->assertEquals(
             $expectedValue,
             $realValue,
-            "Значение в ячейке {$cellCoordinate} не соответствует ожидаемому"
+            "{$cellCoordinate} cell value does not equal expected value"
         );
     }
 
     /**
-     * Проверяет, что ячейка пустая или значение в ячейке равно пустому значению.
+     * Asserts that the cell value is empty.
      *
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
-     *
-     * @throws Exception
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellEmpty(
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
         $value = $cell ? $cell->getValue() : $cell;
+
         $this->assertEmpty(
             $value,
-            "Ячейка {$cellCoordinate} не пуста"
+            "{$cellCoordinate} cell value is not empty"
         );
     }
 
     /**
-     * Проверяет, что цвет текста в ячейке соответствует ожидаемому.
+     * Asserts that the cell font color and the given color are equal.
      *
      * @param string    $expectedArgbColor
-     * @param Worksheet $sheet              excel-лист
-     * @param string    $cellCoordinate     координата ячейки, например, A1
-     *
-     * @throws Exception
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate     for example, "A1"
      */
     private function assertXlsxCellFontColorEquals(
         string $expectedArgbColor,
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
+
         $this->assertEquals(
             $expectedArgbColor,
             $cell->getStyle()->getFont()->getColor()->getARGB(),
-            "Цвет текста в ячейке {$cellCoordinate} не соответствует ".
-            'ожидаемому'
+            "{$cellCoordinate} cell font color does not equal expected value"
         );
     }
 
     /**
-     * Проверяет, что текст в ячейке выделен курсивом.
+     * Asserts that the cell font style is italic.
      *
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
-     *
-     * @throws Exception
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellFontItalic(
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
 
         $this->assertTrue(
             $cell->getStyle()->getFont()->getItalic(),
-            "Текст в ячейке {$cellCoordinate} не выделен курсивом"
+            "{$cellCoordinate} cell style is not italic"
         );
     }
 
     /**
-     * Проверяет, что текст в ячейке подчёркнут.
+     * Asserts that the cell font style is underline.
      *
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
-     *
-     * @throws Exception
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellFontUnderline(
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
 
         $this->assertEquals(
             Font::UNDERLINE_SINGLE,
             $cell->getStyle()->getFont()->getUnderline(),
-            "Текст в ячейке {$cellCoordinate} не подчёркнут"
+            "{$cellCoordinate} cell style is not underline"
         );
     }
 
     /**
-     * Проверяет, что горизонтальное выравнивание в ячейке
-     * соответствует ожидаемому.
+     * Asserts that the cell horizontal alignment and the given horizontal
+     * alignment are equal.
      *
-     * @param string    $expectedHorizontalAlignment
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
+     * @param string    $expectedHorizontalAlignment one of the constants in
+     *                                               Alignment class, see "@see"
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate              for example, "A1"
      *
-     * @throws Exception
+     * @see Alignment::HORIZONTAL_CENTER
      */
     private function assertXlsxCellHorizontalAlignmentEquals(
         string $expectedHorizontalAlignment,
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
+
         $this->assertEquals(
             $expectedHorizontalAlignment,
             $cell->getStyle()->getAlignment()->getHorizontal(),
-            "Горизонтальное выравнивание в ячейке {$cell->getCoordinate()} ".
-            'не соответствует ожидаемому'
+            "{$cell->getCoordinate()} cell horizontal alignment does not ".
+            'equal expected value'
         );
     }
 
     /**
-     * Проверяет, что вертикальное выравнивание в ячейке
-     * соответствует ожидаемому.
+     * Asserts that the cell vertical alignment and the given vertical
+     * alignment are equal.
      *
-     * @param string    $expectedVerticalAlignment
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
+     * @param string    $expectedVerticalAlignment one of the constants in
+     *                                             Alignment class, see "@see"
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate for example, "A1"
      *
-     * @throws Exception
+     * @see Alignment::VERTICAL_CENTER
      */
     private function assertXlsxCellVerticalAlignmentEquals(
         string $expectedVerticalAlignment,
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
+
         $this->assertEquals(
             $expectedVerticalAlignment,
             $cell->getStyle()->getAlignment()->getVertical(),
-            "Вертикальное выравнивание в ячейке {$cellCoordinate} ".
-            'не соответствует ожидаемому'
+            "{$cell->getCoordinate()} cell vertical alignment does not ".
+            'equal expected value'
         );
     }
 
     /**
-     * Проверяет, что для ячейки задано оборачивание текста вокруг её границ,
-     * чтобы текст не заходил за пределы границ.
+     * Asserts that the cell has wrap text alignment.
      *
-     * @param Worksheet $sheet          excel-лист
-     * @param string    $cellCoordinate координата ячейки, например, A1
-     *
-     * @throws Exception
+     * @param Worksheet $sheet
+     * @param string    $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellWrapTextAlignmentTrue(
         Worksheet $sheet,
         string $cellCoordinate
     ): void {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($cellCoordinate);
+
         $this->assertTrue(
             $cell->getStyle()->getAlignment()->getWrapText(),
-            "Для ячейки {$cellCoordinate} не задано оборачивание текста ".
-            'вокруг её границ'
+            "{$cellCoordinate} cell does not have wrap text"
         );
     }
 
     /**
-     * Проверяет, что ширина столбца соответствует ожидаемой.
+     * Asserts that the column width and the given width are equal.
      *
      * @param float     $expectedWidth
-     * @param Worksheet $sheet           excel-лист
-     * @param string    $cellColumnIndex строковый индекс столбца ячейки, например 'A'
+     * @param Worksheet $sheet
+     * @param string    $columnLetter for example, "A"
      */
     private function assertXlsxColumnWidthEquals(
         float $expectedWidth,
         Worksheet $sheet,
-        string $cellColumnIndex
+        string $columnLetter
     ): void {
-        $columnDimension = $sheet->getColumnDimension($cellColumnIndex);
+        $columnDimension = $sheet->getColumnDimension($columnLetter);
         $this->assertEquals(
             $expectedWidth,
             $columnDimension->getWidth(),
-            "Ширина ячейки $cellColumnIndex ".
-            'не соответствует ожидаемой'
+            "$columnLetter column width does not equal expected value"
         );
     }
 
     /**
-     * Проверяет, количество непустых строк в excel-листе.
+     * Asserts that max rows that contain data count equals given value.
      *
      * @param int       $count
-     * @param Worksheet $sheet excel-лист
+     * @param Worksheet $sheet
      */
     private function assertXlsxSheetRowsCount(
         int $count,
@@ -232,15 +304,15 @@ trait XlsxAssertsTrait
         $this->assertCount(
             $count,
             $sheet->toArray(),
-            'Неверное количество строк'
+            'Not empty rows count does not equal expected value'
         );
     }
 
     /**
-     * Проверяет максимальное количество непустых столбцов в excel-листе.
+     * Asserts that max columns that contain data count equals given value.
      *
      * @param int       $count
-     * @param Worksheet $sheet excel-лист
+     * @param Worksheet $sheet
      */
     private function assertXlsxSheetColumnsCount(
         int $count,
@@ -249,41 +321,48 @@ trait XlsxAssertsTrait
         $this->assertCount(
             $count,
             $sheet->toArray()[0],
-            'Неверное количество столбцов'
+            'Not empty columns count does not equal expected value'
         );
     }
 
     /**
-     * Проверяет, объединены ли ячейки в определенном диапазоне.
+     * Asserts that the cells of given range are merged.
      *
      * @param Worksheet $sheet
-     * @param string    $cellRange диапазон ячеек, например A1:A2
-     *
-     * @throws Exception
+     * @param string    $cellRange for example, "A1:A2"
      */
     private function assertXlsxCellsMerged(
         Worksheet $sheet,
         string $cellRange
     ): void {
         [$firstCellCoordinate] = explode(':', $cellRange);
+
+        $this->assertCellCoordinateIsValid($firstCellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $cell = $sheet->getCell($firstCellCoordinate);
         $this->assertEquals(
             $cellRange,
             $cell->getMergeRange(),
-            "Ячейки не объединены в диапазоне $cellRange"
+            "Cells of $cellRange range are not merged"
         );
     }
 
     /**
-     * Проверяет, что все ячейки в указанном диапазоне имеют указанный фоновый
-     * цвет.
+     * Asserts that the cells of given range background colors and the given
+     * colors are equal.
      *
      * @param string    $startColor
      * @param string    $endColor
      * @param Worksheet $sheet
      * @param string    $cellRange
-     *
-     * @throws Exception
      */
     private function assertXlsxCellsBackgroundColorEquals(
         string $startColor,
@@ -306,15 +385,12 @@ trait XlsxAssertsTrait
     }
 
     /**
-     * Проверяет, что ячейка имеет указанный фоновый цвет.
+     * Asserts that the cell background color and the given color are equal.
      *
      * @param string    $startColor
      * @param string    $endColor
      * @param Worksheet $sheet
-     *
      * @param string    $cellCoordinate
-     *
-     * @throws Exception
      */
     private function assertXlsxCellBackgroundColorEquals(
         string $startColor,
@@ -322,6 +398,16 @@ trait XlsxAssertsTrait
         Worksheet $sheet,
         string $cellCoordinate
     ) {
+        $this->assertCellCoordinateIsValid($cellCoordinate, $sheet);
+
+        /**
+         * Suppress inspection because assertCellCoordinateIsValid called above
+         * checked all conditions.
+         *
+         * @see SpreadsheetException
+         *
+         * @noinspection PhpUnhandledExceptionInspection
+         */
         $fill = $sheet->getCell($cellCoordinate)
             ->getStyle()
             ->getFill();
@@ -329,19 +415,33 @@ trait XlsxAssertsTrait
         $this->assertEquals(
             $startColor,
             $fill->getStartColor()->getARGB(),
-            sprintf(
-                'Цвет фона в ячейке "%s" не соответствует ожидаемому',
-                $cellCoordinate
-            )
+            "{$cellCoordinate} cell background start color does not equal ".
+            'expected value'
         );
 
         $this->assertEquals(
             $endColor,
             $fill->getEndColor()->getARGB(),
-            sprintf(
-                'Цвет фона в ячейке "%s" не соответствует ожидаемому',
-                $cellCoordinate
-            )
+            "{$cellCoordinate} cell background end color does not equal ".
+            'expected value'
         );
+    }
+
+    /**
+     * Assert that the cell coordinate is not absolute and is not a range of
+     * cells.
+     *
+     * @param string    $cellCoordinate
+     * @param Worksheet $sheet
+     */
+    private function assertCellCoordinateIsValid(
+        string $cellCoordinate,
+        Worksheet $sheet
+    ) {
+        try {
+            $sheet->getCell($cellCoordinate);
+        } catch (SpreadsheetException $e) {
+            throw new ExpectationFailedException($e->getMessage());
+        }
     }
 }
