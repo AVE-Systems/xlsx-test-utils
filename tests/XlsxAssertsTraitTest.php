@@ -3,19 +3,23 @@
 namespace Tests;
 
 use AveSystems\XlsxTestUtils\XlsxAssertsTrait;
+use const DIRECTORY_SEPARATOR;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
-use const DIRECTORY_SEPARATOR;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class XlsxAssertsTraitTest extends TestCase
 {
     use XlsxAssertsTrait;
 
-    public function testAssertXlsxCellValueEquals_Successful()
+    public function testAssertXlsxCellValueEqualsSuccessful()
     {
         // |A           |B     |                 |D          |
         //1|mixed font  |green |horizontal center|wrap text  |
@@ -30,7 +34,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellValueEquals('yellow', $sheet, 'B3');
     }
 
-    public function testAssertXlsxCellValueEquals_ShouldThrowException()
+    public function testAssertXlsxCellValueEqualsShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -57,7 +61,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellEmpty($sheet, 'A3');
     }
 
-    public function testAssertXlsxCellEmpty_ShouldThrowException()
+    public function testAssertXlsxCellEmptyShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -108,7 +112,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxCellFontColorEquals_ShouldThrowException()
+    public function testAssertXlsxCellFontColorEqualsShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -165,7 +169,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxCellBackgroundColorEquals_ShouldThrowException()
+    public function testAssertXlsxCellBackgroundColorEqualsShouldThrowException()
     {
         // |A    |B     |C     |D     |E     |
         //1|green|green |green |      |      |
@@ -223,7 +227,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxCellsBackgroundColorEquals_ShouldThrowException()
+    public function testAssertXlsxCellsBackgroundColorEqualsShouldThrowException()
     {
         // |A    |B     |C     |D     |E     |
         //1|green|green |green |      |      |
@@ -259,7 +263,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxCellHorizontalAlignmentEquals_ShouldThrowException()
+    public function testAssertXlsxCellHorizontalAlignmentEqualsShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -294,7 +298,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxCellVerticalAlignmentEquals_ShouldThrowException()
+    public function testAssertXlsxCellVerticalAlignmentEqualsShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -328,7 +332,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxCellWrapTextAlignmentTrue_ShouldThrowException()
+    public function testAssertXlsxCellWrapTextAlignmentTrueShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -367,7 +371,7 @@ class XlsxAssertsTraitTest extends TestCase
         );
     }
 
-    public function testAssertXlsxColumnWidthEquals_ShouldThrowException()
+    public function testAssertXlsxColumnWidthEqualsShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -407,7 +411,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxSheetRowsCount(1, $sheet);
     }
 
-    public function testAssertXlsxSheetRowsCount_ShouldThrowException()
+    public function testAssertXlsxSheetRowsCountShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -443,7 +447,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxSheetColumnsCount(1, $sheet);
     }
 
-    public function testAssertXlsxSheetColumnsCount_ShouldThrowException()
+    public function testAssertXlsxSheetColumnsCountShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -469,7 +473,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellsMerged($sheet, 'A1:B2');
     }
 
-    public function testAssertXlsxCellMerged_ShouldThrowException()
+    public function testAssertXlsxCellMergedShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -484,7 +488,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellsMerged($sheet, 'C1:D2');
     }
 
-    public function testAssertXlsxCellMerged_PartlyMergedRange_ShouldThrowException()
+    public function testAssertXlsxCellMergedPartlyMergedRangeShouldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -499,7 +503,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellsMerged($sheet, 'A1:A2');
     }
 
-    public function testAssertXlsxCellFontItalic_Italic()
+    public function testAssertXlsxCellFontItalicItalic()
     {
         // |A      |B               |
         //1|regular|regular + italic|
@@ -510,7 +514,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontItalic($sheet, 'A3');
     }
 
-    public function testAssertXlsxCellFontItalic_ItalicAndBold()
+    public function testAssertXlsxCellFontItalicItalicAndBold()
     {
         // |A      |B               |
         //1|regular|regular + italic|
@@ -521,7 +525,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontItalic($sheet, 'B3');
     }
 
-    public function testAssertXlsxCellFontItalic_StartsWithItalic()
+    public function testAssertXlsxCellFontItalicStartsWithItalic()
     {
         // |A      |B               |
         //1|regular|regular + italic|
@@ -532,7 +536,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontItalic($sheet, 'B2');
     }
 
-    public function testAssertXlsxCellFontItalic_Normal_ThrowException()
+    public function testAssertXlsxCellFontItalicNormalThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -548,7 +552,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontItalic($sheet, 'A1');
     }
 
-    public function testAssertXlsxCellFontItalic_Bold_ThrowException()
+    public function testAssertXlsxCellFontItalicBoldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -564,7 +568,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontItalic($sheet, 'A2');
     }
 
-    public function testAssertXlsxCellFontItalic_EndsWithItalic_ThrowException()
+    public function testAssertXlsxCellFontItalicEndsWithItalicThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -580,7 +584,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontItalic($sheet, 'B1');
     }
 
-    public function testAssertXlsxCellFontUnderline_Underline()
+    public function testAssertXlsxCellFontUnderlineUnderline()
     {
         // |A        |B                  |
         //1|regular  |regular + underline|
@@ -591,7 +595,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontUnderline($sheet, 'A3');
     }
 
-    public function testAssertXlsxCellFontUnderline_UnderlineAndItalic()
+    public function testAssertXlsxCellFontUnderlineUnderlineAndItalic()
     {
         // |A        |B                  |
         //1|regular  |regular + underline|
@@ -602,7 +606,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontUnderline($sheet, 'B3');
     }
 
-    public function testAssertXlsxCellFontUnderline_StartsWithUnderline()
+    public function testAssertXlsxCellFontUnderlineStartsWithUnderline()
     {
         // |A        |B                  |
         //1|regular  |regular + underline|
@@ -613,7 +617,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontUnderline($sheet, 'B2');
     }
 
-    public function testAssertXlsxCellFontUnderline_Normal_ThrowException()
+    public function testAssertXlsxCellFontUnderlineNormalThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -629,7 +633,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontUnderline($sheet, 'A1');
     }
 
-    public function testAssertXlsxCellFontUnderline_Bold_ThrowException()
+    public function testAssertXlsxCellFontUnderlineBoldThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
@@ -645,7 +649,7 @@ class XlsxAssertsTraitTest extends TestCase
         $this->assertXlsxCellFontUnderline($sheet, 'A2');
     }
 
-    public function testAssertXlsxCellFontUnderline_EndsWithUnderline_ThrowException()
+    public function testAssertXlsxCellFontUnderlineEndsWithUnderlineThrowException()
     {
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(

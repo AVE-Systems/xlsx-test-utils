@@ -23,9 +23,7 @@ trait XlsxAssertsTrait
      * Asserts that the cell value and the given value are equal (ignoring
      * style).
      *
-     * @param string    $expectedValue
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate for example, "A1"
+     * @param string $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellValueEquals(
         string $expectedValue,
@@ -57,8 +55,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the cell value is empty.
      *
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate for example, "A1"
+     * @param string $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellEmpty(
         Worksheet $sheet,
@@ -86,9 +83,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the cell font color and the given color are equal.
      *
-     * @param string    $expectedArgbColor
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate     for example, "A1"
+     * @param string $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellFontColorEquals(
         string $expectedArgbColor,
@@ -117,8 +112,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the cell font style is italic.
      *
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate for example, "A1"
+     * @param string $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellFontItalic(
         Worksheet $sheet,
@@ -145,8 +139,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the cell font style is underline.
      *
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate for example, "A1"
+     * @param string $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellFontUnderline(
         Worksheet $sheet,
@@ -175,10 +168,9 @@ trait XlsxAssertsTrait
      * Asserts that the cell horizontal alignment and the given horizontal
      * alignment are equal.
      *
-     * @param string    $expectedHorizontalAlignment one of the constants in
-     *                                               Alignment class, see "@see"
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate              for example, "A1"
+     * @param string $expectedHorizontalAlignment one of the constants in
+     *                                            Alignment class, see "@see"
+     * @param string $cellCoordinate              for example, "A1"
      *
      * @see Alignment::HORIZONTAL_CENTER
      */
@@ -211,10 +203,9 @@ trait XlsxAssertsTrait
      * Asserts that the cell vertical alignment and the given vertical
      * alignment are equal.
      *
-     * @param string    $expectedVerticalAlignment one of the constants in
-     *                                             Alignment class, see "@see"
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate for example, "A1"
+     * @param string $expectedVerticalAlignment one of the constants in
+     *                                          Alignment class, see "@see"
+     * @param string $cellCoordinate            for example, "A1"
      *
      * @see Alignment::VERTICAL_CENTER
      */
@@ -246,8 +237,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the cell has wrap text alignment.
      *
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate for example, "A1"
+     * @param string $cellCoordinate for example, "A1"
      */
     private function assertXlsxCellWrapTextAlignmentTrue(
         Worksheet $sheet,
@@ -274,9 +264,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the column width and the given width are equal.
      *
-     * @param float     $expectedWidth
-     * @param Worksheet $sheet
-     * @param string    $columnLetter for example, "A"
+     * @param string $columnLetter for example, "A"
      */
     private function assertXlsxColumnWidthEquals(
         float $expectedWidth,
@@ -287,15 +275,12 @@ trait XlsxAssertsTrait
         $this->assertEquals(
             $expectedWidth,
             $columnDimension->getWidth(),
-            "$columnLetter column width does not equal expected value"
+            "{$columnLetter} column width does not equal expected value"
         );
     }
 
     /**
      * Asserts that max rows that contain data count equals given value.
-     *
-     * @param int       $count
-     * @param Worksheet $sheet
      */
     private function assertXlsxSheetRowsCount(
         int $count,
@@ -310,9 +295,6 @@ trait XlsxAssertsTrait
 
     /**
      * Asserts that max columns that contain data count equals given value.
-     *
-     * @param int       $count
-     * @param Worksheet $sheet
      */
     private function assertXlsxSheetColumnsCount(
         int $count,
@@ -328,8 +310,7 @@ trait XlsxAssertsTrait
     /**
      * Asserts that the cells of given range are merged.
      *
-     * @param Worksheet $sheet
-     * @param string    $cellRange for example, "A1:A2"
+     * @param string $cellRange for example, "A1:A2"
      */
     private function assertXlsxCellsMerged(
         Worksheet $sheet,
@@ -351,18 +332,13 @@ trait XlsxAssertsTrait
         $this->assertEquals(
             $cellRange,
             $cell->getMergeRange(),
-            "Cells of $cellRange range are not merged"
+            "Cells of {$cellRange} range are not merged"
         );
     }
 
     /**
      * Asserts that the cells of given range background colors and the given
      * colors are equal.
-     *
-     * @param string    $startColor
-     * @param string    $endColor
-     * @param Worksheet $sheet
-     * @param string    $cellRange
      */
     private function assertXlsxCellsBackgroundColorEquals(
         string $startColor,
@@ -386,11 +362,6 @@ trait XlsxAssertsTrait
 
     /**
      * Asserts that the cell background color and the given color are equal.
-     *
-     * @param string    $startColor
-     * @param string    $endColor
-     * @param Worksheet $sheet
-     * @param string    $cellCoordinate
      */
     private function assertXlsxCellBackgroundColorEquals(
         string $startColor,
@@ -410,7 +381,8 @@ trait XlsxAssertsTrait
          */
         $fill = $sheet->getCell($cellCoordinate)
             ->getStyle()
-            ->getFill();
+            ->getFill()
+        ;
 
         $this->assertEquals(
             $startColor,
@@ -430,9 +402,6 @@ trait XlsxAssertsTrait
     /**
      * Assert that the cell coordinate is not absolute and is not a range of
      * cells.
-     *
-     * @param string    $cellCoordinate
-     * @param Worksheet $sheet
      */
     private function assertCellCoordinateIsValid(
         string $cellCoordinate,
