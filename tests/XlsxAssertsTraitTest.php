@@ -142,13 +142,11 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellBackgroundColorEquals(
             Color::COLOR_GREEN,
-            Color::COLOR_GREEN,
             $sheet,
             'A1'
         );
 
         $this->assertXlsxCellBackgroundColorEquals(
-            Color::COLOR_YELLOW,
             Color::COLOR_YELLOW,
             $sheet,
             'B2'
@@ -156,13 +154,11 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellBackgroundColorEquals(
             Color::COLOR_RED,
-            Color::COLOR_RED,
             $sheet,
             'C3'
         );
 
         $this->assertXlsxCellBackgroundColorEquals(
-            Color::COLOR_BLUE,
             Color::COLOR_BLUE,
             $sheet,
             'E3'
@@ -184,7 +180,6 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellBackgroundColorEquals(
             Color::COLOR_YELLOW,
-            Color::COLOR_YELLOW,
             $sheet,
             'D3'
         );
@@ -200,13 +195,11 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellsBackgroundColorEquals(
             Color::COLOR_GREEN,
-            Color::COLOR_GREEN,
             $sheet,
             'A1:C1'
         );
 
         $this->assertXlsxCellsBackgroundColorEquals(
-            Color::COLOR_YELLOW,
             Color::COLOR_YELLOW,
             $sheet,
             'B2:E2'
@@ -214,13 +207,11 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellsBackgroundColorEquals(
             Color::COLOR_RED,
-            Color::COLOR_RED,
             $sheet,
             'A3:D3'
         );
 
         $this->assertXlsxCellsBackgroundColorEquals(
-            Color::COLOR_BLUE,
             Color::COLOR_BLUE,
             $sheet,
             'E3:E3'
@@ -241,7 +232,6 @@ class XlsxAssertsTraitTest extends TestCase
         );
 
         $this->assertXlsxCellsBackgroundColorEquals(
-            Color::COLOR_RED,
             Color::COLOR_RED,
             $sheet,
             'A3:E3'

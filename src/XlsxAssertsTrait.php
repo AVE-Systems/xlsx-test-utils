@@ -337,12 +337,11 @@ trait XlsxAssertsTrait
     }
 
     /**
-     * Asserts that the cells of given range background colors and the given
-     * colors are equal.
+     * Asserts that the cells of given range background color and the given
+     * color are equal.
      */
     private function assertXlsxCellsBackgroundColorEquals(
-        string $startColor,
-        string $endColor,
+        string $color,
         Worksheet $sheet,
         string $cellRange
     ) {
@@ -351,8 +350,7 @@ trait XlsxAssertsTrait
         for ($col = $rangeStart[0]; $col <= $rangeEnd[0]; ++$col) {
             for ($row = $rangeStart[1]; $row <= $rangeEnd[1]; ++$row) {
                 $this->assertXlsxCellBackgroundColorEquals(
-                    $startColor,
-                    $endColor,
+                    $color,
                     $sheet,
                     Coordinate::stringFromColumnIndex($col).$row
                 );
@@ -364,8 +362,7 @@ trait XlsxAssertsTrait
      * Asserts that the cell background color and the given color are equal.
      */
     private function assertXlsxCellBackgroundColorEquals(
-        string $startColor,
-        string $endColor,
+        string $color,
         Worksheet $sheet,
         string $cellCoordinate
     ) {
@@ -381,18 +378,17 @@ trait XlsxAssertsTrait
          */
         $fill = $sheet->getCell($cellCoordinate)
             ->getStyle()
-            ->getFill()
-        ;
+            ->getFill();
 
         $this->assertEquals(
-            $startColor,
+            $color,
             $fill->getStartColor()->getARGB(),
             "{$cellCoordinate} cell background start color does not equal ".
             'expected value'
         );
 
         $this->assertEquals(
-            $endColor,
+            $color,
             $fill->getEndColor()->getARGB(),
             "{$cellCoordinate} cell background end color does not equal ".
             'expected value'
