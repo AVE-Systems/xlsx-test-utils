@@ -138,7 +138,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellBackgroundColorEquals(
             Color::COLOR_GREEN,
-            'FF33CCCC', // зелёный, поставился автоматически в LibreOffice
+            Color::COLOR_GREEN,
             $sheet,
             'A1'
         );
@@ -152,7 +152,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellBackgroundColorEquals(
             Color::COLOR_RED,
-            'FF993300', // красный, поставился автоматически в LibreOffice
+            Color::COLOR_RED,
             $sheet,
             'C3'
         );
@@ -196,7 +196,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellsBackgroundColorEquals(
             Color::COLOR_GREEN,
-            'FF33CCCC', // зелёный, поставился автоматически в LibreOffice
+            Color::COLOR_GREEN,
             $sheet,
             'A1:C1'
         );
@@ -210,7 +210,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellsBackgroundColorEquals(
             Color::COLOR_RED,
-            'FF993300', // красный, поставился автоматически в LibreOffice
+            Color::COLOR_RED,
             $sheet,
             'A3:D3'
         );
@@ -238,7 +238,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->assertXlsxCellsBackgroundColorEquals(
             Color::COLOR_RED,
-            'FF993300', // красный, поставился автоматически в LibreOffice
+            Color::COLOR_RED,
             $sheet,
             'A3:E3'
         );
