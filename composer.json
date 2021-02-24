@@ -4,6 +4,7 @@
     "homepage": "https://github.com/AVE-Systems/xlsx-test-utils",
     "type": "library",
     "license": "Apache-2.0",
+    "version": "0.1.0",
     "authors": [
         {
             "name": "Artem Burykin",
