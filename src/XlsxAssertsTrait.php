@@ -383,14 +383,7 @@ trait XlsxAssertsTrait
         $this->assertEquals(
             $color,
             $fill->getStartColor()->getARGB(),
-            "{$cellCoordinate} cell background start color does not equal ".
-            'expected value'
-        );
-
-        $this->assertEquals(
-            $color,
-            $fill->getEndColor()->getARGB(),
-            "{$cellCoordinate} cell background end color does not equal ".
+            "{$cellCoordinate} cell background color does not equal ".
             'expected value'
         );
     }

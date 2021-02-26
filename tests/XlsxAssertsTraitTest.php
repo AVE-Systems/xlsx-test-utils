@@ -175,7 +175,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.D3 cell background start color does not equal expected value.'
+            '.D3 cell background color does not equal expected value.'
         );
 
         $this->assertXlsxCellBackgroundColorEquals(
@@ -228,7 +228,7 @@ class XlsxAssertsTraitTest extends TestCase
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessageMatches(
-            '.E3 cell background start color does not equal expected value.'
+            '.E3 cell background color does not equal expected value.'
         );
 
         $this->assertXlsxCellsBackgroundColorEquals(
