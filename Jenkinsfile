@@ -20,7 +20,7 @@ pipeline {
         stage('CSFixer') {
             steps {
                 sh '''
-                  docker-compose run --rm php vendor/bin/php-cs-fixer fix src --rules=@PhpCsFixer'
+                  docker-compose run --rm php vendor/bin/php-cs-fixer fix src --rules=@PhpCsFixer
                   docker-compose run --rm php vendor/bin/php-cs-fixer fix tests --rules=@PhpCsFixer
                 '''
             }
